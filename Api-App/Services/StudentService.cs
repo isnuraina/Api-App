@@ -3,6 +3,7 @@ using Api_App.DTOs.Student;
 using Api_App.Models;
 using Api_App.Services.Interfaces;
 using AutoMapper;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api_App.Services
@@ -41,6 +42,16 @@ namespace Api_App.Services
             var student = await _context.Students.FindAsync(id);
             if (student == null) return false;
             _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> EditAsync(int id, StudentEditDto model)
+        {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null) return false;
+
+            _mapper.Map(model, student);
             await _context.SaveChangesAsync();
             return true;
         }

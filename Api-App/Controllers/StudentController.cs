@@ -47,18 +47,11 @@ namespace Api_App.Controllers
             return student == null ? NotFound() : Ok(student);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit([FromRoute]int id,[FromBody]Student request)
+        public async Task<IActionResult> Edit([FromRoute]int id,[FromBody] StudentEditDto request)
         {
-            var data = await _context.Students.FirstOrDefaultAsync(m => m.Id == id);
-            if (data is null)
-            {
-                return NotFound();
-            }
-            data.FullName = request.FullName;
-            data.Email = request.Email;
-            data.Age = request.Age;
-            await _context.SaveChangesAsync();
-            return Ok();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var updated = await _studentService.EditAsync(id, request);
+            return updated ? Ok("Updated") : NotFound();
         }
     }
 }
