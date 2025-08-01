@@ -32,7 +32,8 @@ namespace Api_App
             builder.Services.AddScoped<ICountryService, CountryService>();
             builder.Services.AddScoped<ICityService, CityService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
-
+            builder.Services.AddScoped<IAuthorService, AuthorService>();
+            builder.Services.AddScoped<IBookService, BookService>();
             var app = builder.Build();
 
 

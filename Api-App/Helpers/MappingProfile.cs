@@ -1,4 +1,5 @@
-﻿using Api_App.DTOs.Book;
+﻿using Api_App.DTOs.Author;
+using Api_App.DTOs.Book;
 using Api_App.DTOs.City;
 using Api_App.DTOs.Country;
 using Api_App.DTOs.Student;
@@ -23,7 +24,25 @@ namespace Api_App.Helpers
 
             CreateMap<StudentCreateDto, Student>();
             CreateMap<Student, StudentDto>();
+            CreateMap<Book, BookDto>()
+     .ForMember(dest => dest.AuthorNames,
+         opt => opt.MapFrom(src => src.BookAuthors.Select(ba => ba.Author.Name).ToList()));
+            CreateMap<BookCreateDto, Book>()
+    .ForMember(dest => dest.BookAuthors, opt =>
+        opt.MapFrom(src => src.AuthorIds.Select(id => new BookAuthor { AuthorId = id })));
 
+            CreateMap<BookEditDto, Book>()
+                .ForMember(dest => dest.BookAuthors, opt =>
+                    opt.MapFrom(src => src.AuthorIds.Select(id => new BookAuthor { AuthorId = id })));
+
+            CreateMap<Book, BookDto>()
+                .ForMember(dest => dest.AuthorNames, opt =>
+                    opt.MapFrom(src => src.BookAuthors.Select(ba => ba.Author.Name).ToList()));
+
+            CreateMap<AuthorCreateDto, Author>();
+            CreateMap<AuthorEditDto, Author>();
+            CreateMap<Author, AuthorDto>();
+            
 
         }
     }
