@@ -2,6 +2,7 @@
 using Api_App.DTOs.Book;
 using Api_App.DTOs.City;
 using Api_App.DTOs.Country;
+using Api_App.DTOs.Employee;
 using Api_App.DTOs.Student;
 using Api_App.Models;
 using AutoMapper;
@@ -42,7 +43,8 @@ namespace Api_App.Helpers
             CreateMap<AuthorCreateDto, Author>();
             CreateMap<AuthorEditDto, Author>();
             CreateMap<Author, AuthorDto>();
-            
+            CreateMap<EmployeeCreateDto, Employee>();
+            CreateMap<Employee, EmployeeDto>();
 
         }
     }
