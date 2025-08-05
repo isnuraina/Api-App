@@ -62,7 +62,7 @@ namespace Api_App.Services
             var category = new Category
             {
                 Name = dto.Name,
-                Image = await _fileService.UploadFileAsync(dto.Image, "CategoryImages")
+                Image = await _fileService.UploadFileAsync(dto.Image, "UploadFiles/CategoryImages")
             };
 
             await _context.Categories.AddAsync(category);
@@ -79,7 +79,7 @@ namespace Api_App.Services
             if (dto.Image != null)
             {
                 _fileService.Delete(category.Image, "CategoryImages");
-                category.Image = await _fileService.UploadFileAsync(dto.Image, "CategoryImages");
+                category.Image = await _fileService.UploadFileAsync(dto.Image, "UploadFiles/CategoryImages");
             }
 
             await _context.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace Api_App.Services
             var category = await _context.Categories.FindAsync(id);
             if (category is null) throw new NotFoundException("Category not found");
 
-            _fileService.Delete(category.Image, "CategoryImages");
+            _fileService.Delete(category.Image, "UploadFiles/CategoryImages");
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
         }
