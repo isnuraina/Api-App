@@ -1,6 +1,7 @@
 ﻿using Api_App.Data;
 using Api_App.DTOs.Book;
 using Api_App.Models;
+using Api_App.Services;
 using Api_App.Services.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,11 @@ namespace Api_App.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IBookService _service;
+        private readonly IBookService _bookService;
 
-        public BooksController(IBookService service, AppDbContext context, IMapper mapper)
+        public BooksController(IBookService bookService, AppDbContext context, IMapper mapper)
         {
-            _service = service;
+            _bookService = bookService;
             _context = context;
             _mapper = mapper;
         }
@@ -26,35 +27,35 @@ namespace Api_App.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var books = await _service.GetAllAsync();
+            var books = await _bookService.GetAllAsync();
             return Ok(books);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var book = await _service.GetByIdAsync(id);
+            var book = await _bookService.GetByIdAsync(id);
             return book == null ? NotFound() : Ok(book);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BookCreateDto request)
         {
-            await _service.CreateAsync(request);
+            await _bookService.CreateAsync(request);
             return Ok("Created successfully");
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] BookEditDto request)
         {
-            var success = await _service.EditAsync(id, request);
+            var success = await _bookService.EditAsync(id, request);
             return success ? Ok("Updated successfully") : NotFound();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _service.DeleteAsync(id);
+            var success = await _bookService.DeleteAsync(id);
             return success ? Ok("Deleted successfully") : NotFound();
         }
     }

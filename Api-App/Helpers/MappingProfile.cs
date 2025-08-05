@@ -1,8 +1,10 @@
 ﻿using Api_App.DTOs.Author;
 using Api_App.DTOs.Book;
+using Api_App.DTOs.Category;
 using Api_App.DTOs.City;
 using Api_App.DTOs.Country;
 using Api_App.DTOs.Employee;
+using Api_App.DTOs.Product;
 using Api_App.DTOs.Student;
 using Api_App.Models;
 using AutoMapper;
@@ -45,6 +47,22 @@ namespace Api_App.Helpers
             CreateMap<Author, AuthorDto>();
             CreateMap<EmployeeCreateDto, Employee>();
             CreateMap<Employee, EmployeeDto>();
+            CreateMap<EmployeeEditDto, Employee>();
+            CreateMap<EmployeeCreateDto, Employee>()
+    .ForMember(dest => dest.Image, opt => opt.Ignore());
+
+            CreateMap<EmployeeEditDto, Employee>()
+                .ForMember(dest => dest.Image, opt => opt.Ignore());
+            CreateMap<CategoryCreateDto, Category>().ForMember(dest => dest.Image, opt => opt.Ignore());
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryCreateDto, Category>();
+            CreateMap<CategoryEditDto, Category>();
+
+            CreateMap<Product, ProductDto>()
+                .ForMember(dest => dest.CategoryName,
+                           opt => opt.MapFrom(src => src.Category.Name));
+            CreateMap<ProductCreateDto, Product>();
+            CreateMap<ProductEditDto, Product>();
 
         }
     }

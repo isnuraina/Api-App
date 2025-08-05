@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UploadFiles\" />
+    <Folder Include="UploadFiles\CategoryImage\" />
   </ItemGroup>
 
 </Project>

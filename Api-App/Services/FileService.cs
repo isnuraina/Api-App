@@ -4,6 +4,15 @@ namespace Api_App.Services
 {
     public class FileService : IFileService
     {
+        public void Delete(string fileName, string folder)
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadFiles", fileName);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
         public async Task<string> UploadFileAsync(IFormFile file, string folder)
         {
             string fileName = Guid.NewGuid().ToString() + file.FileName;
@@ -19,5 +28,7 @@ namespace Api_App.Services
             }
             return filePath;
         }
+       
+
     }
 }
